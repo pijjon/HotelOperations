@@ -64,6 +64,6 @@ public class Employee {
     }
 
     public double getTotalPay() {
-        return this.payRate * this.getRegularHours(); // still need overtime calculation but we dont know what overtime pay is yet
+        return this.payRate * (this.getRegularHours() + this.getOvertimeHours() * 1.5);
     }
 }
