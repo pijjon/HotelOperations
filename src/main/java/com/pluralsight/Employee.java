@@ -72,6 +72,30 @@ public class Employee {
         return this.payRate * (this.getRegularHours() + this.getOvertimeHours() * 1.5);
     }
 
+    public void punchIn(LocalDateTime time) {
+        this.clockedInAt = time;
+        this.isClockedIn = true;
+    }
+
+    public void punchIn() {
+        this.clockedInAt = LocalDateTime.now();
+        this.isClockedIn = true;
+    }
+
+    public void punchOut(LocalDateTime time) {
+        Duration duration = Duration.between(this.clockedInAt, time);
+        double hours = duration.toMinutes() / 60.00;
+        this.hoursWorked += hours;
+        this.isClockedIn = false;
+    }
+
+    public void punchOut() {
+        Duration duration = Duration.between(this.clockedInAt, LocalDateTime.now());
+        double hours = duration.toMinutes() / 60.00;
+        this.hoursWorked += hours;
+        this.isClockedIn = false;
+    }
+
     public void punchTimeCard() {
         if (isClockedIn) {
             this.isClockedIn = false;
@@ -83,5 +107,12 @@ public class Employee {
             this.clockedInAt = LocalDateTime.now();
             isClockedIn = true;
         }
+    }
+
+    // overloaded constructor for punchTimeCard for manually entering in time
+    public void punchTimeCard(LocalDateTime start, LocalDateTime end) {
+        Duration duration = Duration.between(start, end);
+        double hours = duration.toMinutes() / 60.00;
+        this.hoursWorked += hours;
     }
 }
