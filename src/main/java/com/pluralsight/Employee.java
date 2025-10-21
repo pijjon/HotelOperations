@@ -1,11 +1,16 @@
 package com.pluralsight;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 public class Employee {
     private int employeeId;
     private String name;
     private String department;
     private double payRate;
     private double hoursWorked;
+    private boolean isClockedIn;
+    private LocalDateTime clockedInAt;
 
     public Employee(int employeeId, String name, String department, double payRate, double hoursWorked) {
         this.employeeId = employeeId;
@@ -65,5 +70,18 @@ public class Employee {
 
     public double getTotalPay() {
         return this.payRate * (this.getRegularHours() + this.getOvertimeHours() * 1.5);
+    }
+
+    public void punchTimeCard() {
+        if (isClockedIn) {
+            this.isClockedIn = false;
+            Duration duration = Duration.between(this.clockedInAt, (LocalDateTime.now()));
+            double hours = duration.toMinutes() / 60.00;
+            this.hoursWorked += hours;
+        }
+        else {
+            this.clockedInAt = LocalDateTime.now();
+            isClockedIn = true;
+        }
     }
 }
