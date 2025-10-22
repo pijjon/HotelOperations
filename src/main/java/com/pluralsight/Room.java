@@ -59,6 +59,8 @@ public class Room {
     }
 
     public void cleanRoom() {
-        this.isDirty = false;
+        if (!this.isOccupied) {
+            this.isDirty = false;
+        }
     }
 }
